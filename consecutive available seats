@@ -1,0 +1,14 @@
+consecutive available seats
+SELECT seat_id
+FROM(SELECT*,LEAD(free)OVER(ORDER BY seat_id) AS NextSeat 
+FROM Cinema) AS W
+WHERE W.free=1 AND W.NextSeat=1
+ORDER BY W.seat_id
+//some error here
+
+SELECT seat_id
+FROM(SELECT*,LEAD(free)OVER(ORDER BY seat_id) AS NextSeat,LAG(free)OVER(ORDER BY seat_id) AS PrevSeat
+FROM Cinema) AS W
+WHERE W.free=1 AND W.NextSeat=1
+OR W.free=1 AND W.PrevSeat=1
+ORDER BY W.seat_id
